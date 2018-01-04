@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
   template: `
     <div class="songs">
       <song-list
+        (toggle)="onToggle($event)"
         [list]="playlist$ | async">
         Playlist
       </song-list>
@@ -34,5 +35,9 @@ export class SongsPlaylistComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  onToggle(event: any) {
+    this.songsService.toggle(event);
   }
 }

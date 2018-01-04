@@ -20,6 +20,23 @@ export class SongsService {
     private http: Http,
     private store: Store
   ) {}
+
+  toggle(event: any) {
+    this.http
+      .put(`/api/playlist/${event.track.id}`, event.track)
+      .map(res => res.json())
+      .subscribe((track: Song) => {
+        const value = this.store.value.playlist;
+        const playlist = value.map((song: Song) => {
+          if(event.track.id === song.id) {
+            return {...song, ...event.track};
+          } else {
+            return song;
+          }
+        });
+        this.store.set('playlist', playlist);
+      })
+  }
 }
 
 export interface Song{
